@@ -6,7 +6,7 @@ const router = express.Router();
 const multer = require("multer");
 
 const Storage = multer.diskStorage({
-  destination: "pdfBucket",
+  destination: "pdfToDownload",
   filename: (req, file, cb) => {
     cb(null, file.originalname);
   },
@@ -28,7 +28,7 @@ router.post("/upload/pdf", async (req, res) => {
   try {
     const pdfToUpdate = await Pdf.find();
 
-    fs.unlink(`./pdfBucket/${pdfToUpdate[0].title}`, (error) => {
+    fs.unlink(`./pdfToDownload/${pdfToUpdate[0].title}`, (error) => {
       if (error) {
         console.log(error);
       }
@@ -61,7 +61,7 @@ router.get("/download/pdf", async (req, res) => {
   try {
     const pdfList = await Pdf.find();
 
-    res.download(`./pdfBucket/${pdfList[0].title}`);
+    res.download(`./pdfToDownload/${pdfList[0].title}`);
   } catch (error) {
     res.status(400).json(error.message);
   }
