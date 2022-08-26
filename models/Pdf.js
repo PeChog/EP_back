@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
 
 const Pdf = mongoose.model("Pdf", {
-  document: { type: Buffer },
+  title: String,
+  brochure: { data: Buffer, contentType: String },
 });
 
 module.exports = Pdf;

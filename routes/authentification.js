@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
 
+const formidable = require("express-formidable");
+router.use(formidable());
+
 router.post("/auth", async (req, res) => {
   const { email, password } = req.fields;
   console.log(email, password);

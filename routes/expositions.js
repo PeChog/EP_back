@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
 
+const formidable = require("express-formidable");
+router.use(formidable());
+
 const Exposition = require("../models/Exposition");
 
 //une deuxième route en GET pour lister tous les expositions
@@ -17,7 +20,7 @@ router.get("/expositions", async (req, res) => {
 router.post("/create/exposition", async (req, res) => {
   try {
     const { date, description } = req.fields;
-
+    console.log(req.fields);
     if (date && description) {
       const newExposition = new Exposition({
         expo_date: date,
