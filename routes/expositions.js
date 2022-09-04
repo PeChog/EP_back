@@ -21,11 +21,14 @@ router.post("/create/exposition", async (req, res) => {
   try {
     const { date, description } = req.fields;
     console.log(req.fields);
-    if (date && description) {
+    if (description) {
       const newExposition = new Exposition({
-        expo_date: date,
         expo_description: description,
+        timeStamp: Date.now(),
       });
+      if (date) {
+        newExposition.expo_date = date;
+      }
 
       await newExposition.save();
 
