@@ -19,10 +19,11 @@ router.get("/expositions", async (req, res) => {
 //une première route en POST pour créer une exposition
 router.post("/create/exposition", async (req, res) => {
   try {
-    const { date, description } = req.fields;
+    const { date, description, index } = req.fields;
     console.log(req.fields);
     if (description) {
       const newExposition = new Exposition({
+        exposition_index: index,
         expo_description: description,
         timeStamp: Date.now(),
       });
@@ -51,6 +52,31 @@ router.post("/delete/exposition", async (req, res) => {
     res.json(deleteExposition);
   } catch (error) {
     res.status(400).json({ error: { message: error.message } });
+  }
+});
+
+router.post("/reorder/expositions", async (req, res) => {
+  try {
+    const expositions = JSON.parse(req.fields.expositions);
+
+    const promise = expositions.map(async (exposition) => {
+      console.log(exposition);
+      const expositionToUpdate = await Exposition.findByIdAndUpdate(
+        exposition._id,
+        { exposition_index: exposition.exposition_index },
+        { new: true }
+      );
+    });
+
+    Promise.all(promise)
+      .then(() => {
+        res.json("update order success");
+      })
+      .catch((error) => {
+        res.json({ message: "update order fail", error: error.message });
+      });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
   }
 });
 
