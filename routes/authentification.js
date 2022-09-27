@@ -14,7 +14,7 @@ router.post("/auth", async (req, res) => {
     if (email && password) {
       if (email === emailCheck && password === passwordCheck) {
         res.json({
-          token: 1234567890,
+          token: process.env.TOKEN,
         });
       } else {
         res.json({ message: "Erreur email ou mot de passe" });
