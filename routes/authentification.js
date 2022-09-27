@@ -8,8 +8,8 @@ router.post("/auth", async (req, res) => {
   const { email, password } = req.fields;
   console.log(email, password);
   try {
-    const emailCheck = "eliott@eliott";
-    const passwordCheck = "12345";
+    const emailCheck = process.env.EMAIL;
+    const passwordCheck = process.env.PASSWORD;
 
     if (email && password) {
       if (email === emailCheck && password === passwordCheck) {
